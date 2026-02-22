@@ -12,7 +12,7 @@ def display_menu(names):
     else:
         print(f"Logged in as: {user}")
     
-    print("-- Displaying Menu --\n1. Display Roster\n2. Add Crew\n3. Remove Crew\n4. Update Rank\n5. Display Roster\n6. Exit")
+    print("-- Displaying Menu --\n1. Display Roster\n2. Add Crew\n3. Remove Crew\n4. Update Rank\n5. Search Crew\n6. Crew Payroll\n7. Count Officers\n8. Exit")
 
     while True:
         try:
@@ -20,7 +20,7 @@ def display_menu(names):
         except ValueError:
             print("Not an Integer. Try again.")
         else:
-            if option < 1 or option > 6:
+            if option < 1 or option > 8:
                 print("That was not an option. Try again.")
                 continue
             else:
@@ -137,12 +137,31 @@ def search_crew(names, ranks, divs, ids):
     if found == False:
         print(f"Could not find anyone with {search_term} in their name.")
 
+def filter_by_division(names, divs):
+    found = False
+    while found == False:
+        search_divs = input("What Division are you looking for?: ")
+        match search_divs:
+            case "Command" | "Science" | "Operations" | "Security" | "Medical" | "Engineering":
+                print("Search Results")
+                print("-"*14)
+                for i in range(len(names)):
+                    if search_divs == divs[i]:
+                        print(names[i])
+                        found = True
+                
+                if found == False:
+                    print("No crew members found in that division.")
+                    break
+            
+            case _:
+                print("That is not a Division. Try again.")
 
 def main():
     names, ranks, divs, ids = init_database() #Sets up lists at the start
     option = display_menu(names) #Receives option from display
     if option == 1:
-        print("Option 1 not yet available.")#placeholder
+        display_roster(names, ranks, divs, ids)
     elif option == 2:
         names, ranks, divs, ids = add_member(names, ranks, divs, ids)
     elif option == 3:
@@ -150,9 +169,8 @@ def main():
     elif option == 4:
         names, ranks, ids = update_rank(names, ranks, ids)
     elif option == 5:
-        display_roster(names, ranks, divs, ids)
-    elif option == 6:
         search_crew(names, ranks, divs, ids)
-
+    elif option == 6:
+        filter_by_division(names, divs)
 
 main()
