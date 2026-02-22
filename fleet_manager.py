@@ -40,7 +40,7 @@ def add_member(names, ranks, divs, ids):
                 ids.append(new_ids)
                 break
 
-    valid_rank = ["Fleet Admiral", "Admiral", "Captain", "Commander", "Lieutenant Commander", "Lieutenant", "Lieutenant Junior Grade", "Ensign", "Officer", "Cadet"]
+    valid_rank = ["Fleet Admiral", "Admiral", "Captain", "Commander", "Lt. Commander", "Lieutenant", "Lieutenant Junior Grade", "Ensign", "Officer", "Cadet"]
     valid_divs = ["Command", "Science", "Operations", "Security", "Medical", "Engineering"]
     
     new_name = input("Enter the new member's name: ")
@@ -105,7 +105,7 @@ def update_rank(names, ranks, ids):
     index = ids.index(update_id)
     current_name = names[index]
     current_rank = ranks[index]
-    valid_rank = ["Fleet Admiral", "Admiral", "Captain", "Commander", "Lieutenant Commander", "Lieutenant", "Lieutenant Junior Grade", "Ensign", "Officer", "Cadet"]
+    valid_rank = ["Fleet Admiral", "Admiral", "Captain", "Commander", "Lt.Commander", "Lieutenant", "Lieutenant Junior Grade", "Ensign", "Officer", "Cadet"]
     while True:
         new_rank = input("Enter new rank: ")
         if new_rank in valid_rank:
@@ -157,6 +157,19 @@ def filter_by_division(names, divs):
             case _:
                 print("That is not a Division. Try again.")
 
+def calculate_payroll(ranks):
+    costs = [3000, 2500, 2000, 1500, 1000, 750, 500, 400, 200, 100]
+    valid_rank = ["Fleet Admiral", "Admiral", "Captain", "Commander", "Lt.Commander", "Lieutenant", "Lieutenant Junior Grade", "Ensign", "Officer", "Cadet"]
+    total_cost = 0
+    for rank in ranks:
+        if rank in valid_rank:
+            index = valid_rank.index(rank)
+            total_cost += costs[index]
+            print(rank, costs[index])
+    print(f"The total cost of the crew is {total_cost}.")
+
+
+
 def main():
     names, ranks, divs, ids = init_database() #Sets up lists at the start
     option = display_menu(names) #Receives option from display
@@ -172,5 +185,7 @@ def main():
         search_crew(names, ranks, divs, ids)
     elif option == 6:
         filter_by_division(names, divs)
+    elif option == 7:
+        calculate_payroll(ranks)
 
 main()
