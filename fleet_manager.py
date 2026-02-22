@@ -31,16 +31,18 @@ def add_member(names, ranks, divs, ids):
         try:
             new_ids = int(input("Insert new member ID: "))
         except ValueError:
-            print("ID's are integers. Try again.")
+            print("ID's are integers.")
         else:
             if new_ids in ids:
                 print("ID is already taken. Try again.")
+            elif new_ids < 0:
+                print("ID's can't be negative.")
             else:
                 print("ID is unique")
                 ids.append(new_ids)
                 break
 
-    valid_rank = ["Fleet Admiral", "Admiral", "Captain", "Commander", "Lt. Commander", "Lieutenant", "Lieutenant Junior Grade", "Ensign", "Officer", "Cadet"]
+    valid_rank = ["Fleet Admiral", "Admiral", "Captain", "Commander", "Lt.Commander", "Lieutenant", "Lieutenant Junior Grade", "Ensign", "Officer", "Cadet"]
     valid_divs = ["Command", "Science", "Operations", "Security", "Medical", "Engineering"]
     
     new_name = input("Enter the new member's name: ")
@@ -65,6 +67,7 @@ def add_member(names, ranks, divs, ids):
             print("That is not a Division.")
 
     print("Crew Member has been added to the ship database.")
+    return names, ranks, divs, ids
 
 def remove_member(names, ranks, divs, ids):
     while True:
@@ -124,18 +127,20 @@ def display_roster(names, ranks, divs, ids):
         print(f"{ids[i]} - {names[i]} - {ranks[i]} - {divs[i]}")
 
 def search_crew(names, ranks, divs, ids):
-    search_term = input("Enter name to search for: ").lower()
+    while True:
+        search_term = input("Enter name to search for: ").lower()
+        found = False
+        print("Search Results")
+        print("-"*14)
+        for i in range(len(names)): #For each item in names.
+            if search_term in names[i].lower(): #Check the characters in search_term against the string of each name.
+                print(f"{ids[i]} - {names[i]} - {ranks[i]} - {divs[i]}")
+                found = True
 
-    found = False
-    print("Search Results")
-    print("-"*14)
-    for i in range(len(names)): #For each item in names.
-        if search_term in names[i].lower(): #Check the characters in search_term against the string of each name.
-            print(f"{ids[i]} - {names[i]} - {ranks[i]} - {divs[i]}")
-            found = True
+        if found == False:
+            print(f"Could not find anyone with {search_term} in their name.")
+        break
 
-    if found == False:
-        print(f"Could not find anyone with {search_term} in their name.")
 
 def filter_by_division(names, divs):
     found = False
@@ -168,24 +173,50 @@ def calculate_payroll(ranks):
             print(rank, costs[index])
     print(f"The total cost of the crew is {total_cost}.")
 
-
+def count_officers(ranks):
+    count = 0
+    ad_count = 0
+    for rank in ranks:
+        if rank == "Captain" or rank == "Commander": 
+            count += 1
+        elif rank == "Fleet Admiral" or rank == "Admiral":
+            ad_count += 1
+    print(f"Captain or Commander Officers: {count}\nTotal Admirals: {ad_count}")
 
 def main():
     names, ranks, divs, ids = init_database() #Sets up lists at the start
-    option = display_menu(names) #Receives option from display
-    if option == 1:
-        display_roster(names, ranks, divs, ids)
-    elif option == 2:
-        names, ranks, divs, ids = add_member(names, ranks, divs, ids)
-    elif option == 3:
-        names, ranks, divs, ids = remove_member(names, ranks, divs, ids)
-    elif option == 4:
-        names, ranks, ids = update_rank(names, ranks, ids)
-    elif option == 5:
-        search_crew(names, ranks, divs, ids)
-    elif option == 6:
-        filter_by_division(names, divs)
-    elif option == 7:
-        calculate_payroll(ranks)
-
+    while True:
+        option = display_menu(names) #Receives option from display
+        if option == 1:
+            display_roster(names, ranks, divs, ids)
+        elif option == 2:
+            names, ranks, divs, ids = add_member(names, ranks, divs, ids)
+        elif option == 3:
+            names, ranks, divs, ids = remove_member(names, ranks, divs, ids)
+        elif option == 4:
+            names, ranks, ids = update_rank(names, ranks, ids)
+        elif option == 5:
+            print("Search Options:\n1. Search by Name\n2. Filter by Division\n3. Exit")
+            while True:
+                choice = input("Please select an option: ")
+                if choice == "1":
+                    search_crew(names, ranks, divs, ids)
+                    print("Search Options:\n1. Search by Name\n2. Filter by Division\n3. Exit")
+                elif choice == "2":
+                    filter_by_division(names, divs)
+                    print("Search Options:\n1. Search by Name\n2. Filter by Division\n3. Exit")
+                elif choice == "3":
+                    print("Exiting...")
+                    break
+                else:
+                    print("Not an option. Try again.")
+        elif option == 6:
+            calculate_payroll(ranks)
+        elif option == 7:
+            count_officers(ranks)
+        elif option == 8:
+            break
+        else:
+            print("That was not an option. Try again.")
+        print("-"*41)
 main()
