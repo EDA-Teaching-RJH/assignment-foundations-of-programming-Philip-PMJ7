@@ -12,7 +12,7 @@ def display_menu(names):
     else:
         print(f"Logged in as: {user}")
     
-    print("-- Displaying Menu --\n1. Display Roster\n2. Add Crew\n3. Remove Crew\n4. Update Rank\n5. Exit")
+    print("-- Displaying Menu --\n1. Display Roster\n2. Add Crew\n3. Remove Crew\n4. Update Rank\n5. Display Roster\n6. Exit")
 
     while True:
         try:
@@ -20,7 +20,7 @@ def display_menu(names):
         except ValueError:
             print("Not an Integer. Try again.")
         else:
-            if option < 1 or option > 5:
+            if option < 1 or option > 6:
                 print("That was not an option. Try again.")
                 continue
             else:
@@ -117,7 +117,11 @@ def update_rank(names, ranks, ids):
     
     return names, ranks, ids
     
-
+def display_roster(names, ranks, divs, ids):
+    print(f"{'ID'} | {'Name'} |   {'Rank'}   |  {'Division'}") #Rough spaces for each header
+    print("-" * 41)#title break
+    for i in range(len(names)):
+        print(f"{ids[i]} - {names[i]} - {ranks[i]} - {divs[i]}")
 
 def main():
     names, ranks, divs, ids = init_database() #Sets up lists at the start
@@ -130,7 +134,8 @@ def main():
         names, ranks, divs, ids = remove_member(names, ranks, divs, ids)
     elif option == 4:
         names, ranks, ids = update_rank(names, ranks, ids)
-    
+    elif option == 5:
+        display_roster(names, ranks, divs, ids)
 
 
 main()
