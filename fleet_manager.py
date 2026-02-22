@@ -82,7 +82,7 @@ def remove_member(names, ranks, divs, ids):
                 divs.pop(index)
                 ids.pop(index)
 
-                print("Crew Member has been removed")
+                print("Crew Member has been removed.")
                 return names, ranks, divs, ids
             
             else:
@@ -91,7 +91,7 @@ def remove_member(names, ranks, divs, ids):
 def update_rank(names, ranks, ids):
     while True:
         try:
-            update_id = int(input("Enter the ID of the Crew Member whose Rank will be updated."))
+            update_id = int(input("Enter the ID of the Crew Member whose Rank will be updated: "))
         except ValueError:
             print("IDs can only be Integers.")
         else:
@@ -118,10 +118,25 @@ def update_rank(names, ranks, ids):
     return names, ranks, ids
     
 def display_roster(names, ranks, divs, ids):
-    print(f"{'ID'} | {'Name'} |   {'Rank'}   |  {'Division'}") #Rough spaces for each header
-    print("-" * 41)#title break
+    print(f"{'ID'} | {'Name'} |   {'Rank'}   |  {'Division'}") #Rough spaces for each header.
+    print("-"*41)#title break
     for i in range(len(names)):
         print(f"{ids[i]} - {names[i]} - {ranks[i]} - {divs[i]}")
+
+def search_crew(names, ranks, divs, ids):
+    search_term = input("Enter name to search for: ").lower()
+
+    found = False
+    print("Search Results")
+    print("-"*14)
+    for i in range(len(names)): #For each item in names.
+        if search_term in names[i].lower(): #Check the characters in search_term against the string of each name.
+            print(f"{ids[i]} - {names[i]} - {ranks[i]} - {divs[i]}")
+            found = True
+
+    if found == False:
+        print(f"Could not find anyone with {search_term} in their name.")
+
 
 def main():
     names, ranks, divs, ids = init_database() #Sets up lists at the start
@@ -136,6 +151,8 @@ def main():
         names, ranks, ids = update_rank(names, ranks, ids)
     elif option == 5:
         display_roster(names, ranks, divs, ids)
+    elif option == 6:
+        search_crew(names, ranks, divs, ids)
 
 
 main()
