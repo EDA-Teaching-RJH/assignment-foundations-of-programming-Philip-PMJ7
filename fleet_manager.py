@@ -26,9 +26,53 @@ def display_menu(names):
             else:
                 return option
 
+def add_member(names, ranks, divs, ids):
+    while True:
+        try:
+            new_ids = int(input("Insert new member ID: "))
+        except ValueError:
+            print("ID's are integers. Try again.")
+        else:
+            if new_ids in ids:
+                print("ID is already taken. Try again.")
+            else:
+                print("ID is unique")
+                ids.append(new_ids)
+                break
+
+    valid_rank = ["Fleet Admiral", "Admiral", "Captain", "Commander", "Lieutenant Commander", "Lieutenant", "Lieutenant Junior Grade", "Ensign", "Officer", "Cadet"]
+    valid_divs = ["Command", "Science", "Operations", "Security", "Medical", "Engineering"]
+    
+    new_name = input("Enter the new member's name: ")
+    names.append(new_name)
+
+    while True:
+        new_rank = input("Enter their Rank: ")
+        if new_rank in valid_rank:
+            print("Rank added.")
+            ranks.append(new_rank)
+            break
+        else:
+            print("That is not a Rank. Try again.")
+
+    while True:
+        new_divs = input("Enter their Division: ")
+        if new_divs in valid_divs:
+            print("Division added.")
+            divs.append(new_divs)
+            break
+        else:
+            print("That is not a Division. Try again.")
+
+    print("Member has been added to the ship database.")
+
 def main():
     names, ranks, divs, ids = init_database() #Sets up lists at the start
     option = display_menu(names) #Receives option from display
+    if option == 1:
+        print("Option 1 not yet available.")#placeholder
+    elif option == 2:
+        add_member(names, ranks, divs, ids)
 
 
 main()
