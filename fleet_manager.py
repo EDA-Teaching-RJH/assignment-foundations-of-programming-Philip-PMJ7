@@ -53,7 +53,7 @@ def add_member(names, ranks, divs, ids):
             ranks.append(new_rank)
             break
         else:
-            print("That is not a Rank. Try again.")
+            print("That is not a Rank.")
 
     while True:
         new_divs = input("Enter their Division: ")
@@ -62,9 +62,31 @@ def add_member(names, ranks, divs, ids):
             divs.append(new_divs)
             break
         else:
-            print("That is not a Division. Try again.")
+            print("That is not a Division.")
 
-    print("Member has been added to the ship database.")
+    print("Crew Member has been added to the ship database.")
+
+def remove_member(names, ranks, divs, ids):
+    while True:
+        try:
+            remove_id = int(input("Enter ID of Crew Member to be removed: "))
+        except ValueError:
+            print("IDs can only be Integers")
+        else:
+            if remove_id in ids:
+                index = ids.index(remove_id)
+                remove_name = names[index]
+
+                names.pop(index)
+                ranks.pop(index)
+                divs.pop(index)
+                ids.pop(index)
+
+                print("Crew Member has been removed")
+                return names, ranks, divs, ids
+            
+            else:
+                print("No Crew Member exists with that ID. Try again.")
 
 def main():
     names, ranks, divs, ids = init_database() #Sets up lists at the start
@@ -72,7 +94,8 @@ def main():
     if option == 1:
         print("Option 1 not yet available.")#placeholder
     elif option == 2:
-        add_member(names, ranks, divs, ids)
-
+        names, ranks, divs, ids = add_member(names, ranks, divs, ids)
+    elif option == 3:
+        names, ranks, divs, ids = remove_member(names, ranks, divs, ids)
 
 main()
