@@ -123,7 +123,7 @@ def display_roster(names, ranks, divs, ids):
     print(f"{'ID'} | {'Name'} |   {'Rank'}   |  {'Division'}") #Rough spaces for each header.
     print("-"*41) #Title break.
     for i in range(len(names)): #For each item in the first list:
-        print(f"{ids[i]} - {names[i]} - {ranks[i]} - {divs[i]}") #print out each corrosponding item of the same index.
+        print(f"{ids[i]} - {names[i]} - {ranks[i]} - {divs[i]}") #Print out each corrosponding item of the same index.
 
 def search_crew(names, ranks, divs, ids):
     while True:
